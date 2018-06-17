@@ -44,4 +44,12 @@ public class Category {
     public void setName(String aName) {
         this.name = aName;
     }
+
+    public List<Cheese> getCheeses() {
+        return cheeses;
+    }
+
+    public void setCheeses(List<Cheese> aCheeses) {
+        this.cheeses = aCheeses;
+    }
 }
