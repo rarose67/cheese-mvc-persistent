@@ -30,9 +30,6 @@ public class MenuController {
     @Autowired
     private CheeseDao cheeseDao;
 
-    @Autowired
-    private CategoryDao categoryDao;
-
     // Request path: /menu
     @RequestMapping(value = "")
     public String index(Model model) {
@@ -45,7 +42,7 @@ public class MenuController {
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddMenuForm(Model model) {
-        model.addAttribute("title", "Add Category");
+        model.addAttribute("title", "Create Menu");
         model.addAttribute(new Menu());
         return "menu/add";
     }
@@ -55,7 +52,7 @@ public class MenuController {
                                        Errors errors, Model model) {
 
         if (errors.hasErrors()) {
-            model.addAttribute("title", "Add Menu");
+            model.addAttribute("title", "Create Menu");
             return "menu/add";
         }
 
@@ -80,7 +77,6 @@ public class MenuController {
         Iterable<Cheese> cheeses = cheeseDao.findAll();
         AddMenuItemForm form = new AddMenuItemForm(menu, cheeses);
 
-        model.addAttribute("menu", menu);
         model.addAttribute("title", "Add an item to Menu: " + menu.getName());
         model.addAttribute("form", form);
 
@@ -98,7 +94,6 @@ public class MenuController {
             Iterable<Cheese> cheeses = cheeseDao.findAll();
             AddMenuItemForm form = new AddMenuItemForm(menu, cheeses);
 
-            model.addAttribute("menu", menu);
             model.addAttribute("title", "Add an item to Menu: " + menu.getName());
             model.addAttribute("form", form);
 
@@ -107,14 +102,6 @@ public class MenuController {
 
         Cheese addedCheese = cheeseDao.findOne(newForm.getCheeseId());
         menu.addItem(addedCheese);
-
-        String output = menu.getName() + ": ";
-        for (int i=0; i<menu.getCheeses().size(); i++)
-        {
-            output += "\n\t. " + menu.getCheeses().get(i).getName() + " : " + menu.getCheeses().get(i).getDescription();
-        }
-        System.out.println("\n" + output + "\n");
-
         menuDao.save(menu);
         return "redirect:view/" + menu.getId();
     }
