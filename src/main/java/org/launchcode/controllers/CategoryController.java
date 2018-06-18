@@ -30,14 +30,14 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String displayAddCheeseForm(Model model) {
+    public String displayAddCategoryForm(Model model) {
         model.addAttribute("title", "Add Category");
         model.addAttribute(new Category());
         return "category/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddCheeseForm(@ModelAttribute @Valid Category newCategory,
+    public String processAddCategoryForm(@ModelAttribute @Valid Category newCategory,
                                        Errors errors, Model model) {
 
         if (errors.hasErrors()) {

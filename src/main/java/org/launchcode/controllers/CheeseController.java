@@ -78,7 +78,7 @@ public class CheeseController {
     }
 
     @RequestMapping(value = "category/{categoryId}", method = RequestMethod.GET)
-    public String category (HttpServletRequest request, Model model, @PathVariable int categoryId)
+    public String category (Model model, @PathVariable int categoryId)
     {
         List<Cheese> cheeses = categoryDao.findOne(categoryId).getCheeses();
         model.addAttribute("cheeses", cheeses);
