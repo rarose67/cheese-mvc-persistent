@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by LaunchCode
@@ -88,4 +89,48 @@ public class CheeseController {
         return "cheese/index";
     }
 
+    @RequestMapping(value = "edit/{cheeseId}", method = RequestMethod.GET)
+    public String displayEditForm(HttpServletRequest request, Model model, @PathVariable int cheeseId)
+    {
+        //String title ="Edit a Cheese";
+        Cheese changedCheese;
+
+        //model.addAttribute("title", title);
+        //String error = request.getParameter("error");
+
+        changedCheese = cheeseDao.findOne(cheeseId);
+
+        model.addAttribute("cheese", changedCheese);
+        model.addAttribute("cheeseId", cheeseId);
+        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("type", changedCheese.getCategory());
+
+        return "cheese/edit";
+    }
+
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    public String processEditForm(@ModelAttribute  @Valid Cheese newCheese,
+                                  Errors errors, @RequestParam int cheeseId, @RequestParam int categoryId, Model model)
+    {
+        Cheese changedCheese;
+
+        changedCheese = cheeseDao.findOne(cheeseId);
+        Category cat = categoryDao.findOne(categoryId);
+
+        if (errors.hasErrors()) {
+            model.addAttribute("cheeseId", cheeseId);
+            model.addAttribute("type", cat);
+            model.addAttribute("categories", categoryDao.findAll());
+            return "cheese/edit";
+            //return "redirect:edit/" + cheeseId;
+        }
+
+        changedCheese.setName(newCheese.getName());
+        changedCheese.setDescription(newCheese.getDescription());
+        changedCheese.setCategory(cat);
+
+
+        cheeseDao.save(changedCheese);
+        return "redirect:";
+    }
 }

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class Cheese {
 
     @NotNull
     @Size(min=3, max=15)
+    @Pattern(regexp = "[a-zA-Z]{3}[a-zA-Z]*",
+            message = "The username must be 3-15 characters, & must be alphabetic")
     private String name;
 
     @NotNull
