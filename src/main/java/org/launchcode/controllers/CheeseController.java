@@ -90,14 +90,9 @@ public class CheeseController {
     }
 
     @RequestMapping(value = "edit/{cheeseId}", method = RequestMethod.GET)
-    public String displayEditForm(HttpServletRequest request, Model model, @PathVariable int cheeseId)
+    public String displayEditForm(Model model, @PathVariable int cheeseId)
     {
-        //String title ="Edit a Cheese";
         Cheese changedCheese;
-
-        //model.addAttribute("title", title);
-        //String error = request.getParameter("error");
-
         changedCheese = cheeseDao.findOne(cheeseId);
 
         model.addAttribute("cheese", changedCheese);
@@ -122,7 +117,6 @@ public class CheeseController {
             model.addAttribute("type", cat);
             model.addAttribute("categories", categoryDao.findAll());
             return "cheese/edit";
-            //return "redirect:edit/" + cheeseId;
         }
 
         changedCheese.setName(newCheese.getName());
